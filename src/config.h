@@ -34,7 +34,7 @@ const int STEPS_PER_REVOLUTION = 333;
 const int MOTOR_PIN = 27;
 unsigned int DISTANZA_MINIMA = 60;
 unsigned int SECONDI_ATTIVAZIONE_AP = 15;
-unsigned int SECONDI_ATTIVAZIONE_MOTOR = 2;
+unsigned int SECONDI_ATTIVAZIONE_MOTOR = 10;
 
 // values for program
 unsigned int distanza;
