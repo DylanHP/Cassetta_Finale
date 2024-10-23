@@ -1,0 +1,368 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>Valsir Placca Demo</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png"
+        href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAMAAABg3Am1AAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAACKUExURf///9ju/a/Y+O/4/sfk+rTd+rze+d7w/Z7T+I3L+LDb+qXU+M3p/GK29ACM7yGa8AiN78Dj+zOi8ubz/QuR8Fy19fb6/hGU8FCv9Dql8Uqt8yic8HvD95TO+Dql8xmV8Pj8/ovJ9mq89i+f8UGn8+b0/UKq877g+0yu9HrB9oLF91K193O/9lGu8k1UiAMAAAABYktHRACIBR1IAAAAB3RJTUUH6AULAB0revKuYgAAAf1JREFUSMftVNuWojAQ7Ey4qDAJCoKDo6CC7rru///e9CXMObrc3nfqQaFTnXR1VwD4j6HeEBo8PwgC3QXDBWIZ4OJqtYrip4R3g/DAJoi1i+lNkmB0nVpazJ4TthRTeYG/hXKxHcVMAB/u/wkl7aFDStjnEvpk3lION4dnfn7EWFV7VMJGQhHz3uHE/+cXzfqCwQv4tLbjCOeaBlbMb+qXhLTC6IfsypuJUNtykcaGr10NMwyXcvwJ3+urNKamk01y+3cMVMAWzrQc4Ts/4NOvPsGEdcK1cHNxuwPzPuF3r2ACq73LhgoCFvzHNeqa9yRE0nJqbpGH1AFzdI2yaZ+VllIyteaoN/RSta04wuv1HhfrszPKrWuMOGLRb1buipdSDYnjiSMe/XxuT6aU6fBwjrgO8Nl7VRt0/BJuZlgwgXRWeuH4+1wcMSCYsCca3IVfqPwyJhihLZv1IQk+/B0VjOBRHcUZaD5xRFkPJ8QF34NGnCOOsO0wH25i1os4ImMh8Qgf3qRkS/uynjHBBC7iriv6ljRTggns/4XK0H9nN7lx8AD8Ne4rV2efTiTwtvGhcVdnZMIOPIA41qqaIZiwk6vJlpoUjKipM1nqJj02YQe+lLY+TU+4SyCzNtFMwYiUrFRlMwWD++6ZmYIJ3jd/asLdCWeHxwzBP5iBLyz3Mx70xRLMAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDI0LTA1LTExVDAwOjI5OjQzKzAwOjAwVqKk9gAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyNC0wNS0xMVQwMDoyOTo0MyswMDowMCf/HEoAAAAodEVYdGRhdGU6dGltZXN0YW1wADIwMjQtMDUtMTFUMDA6Mjk6NDMrMDA6MDBw6j2VAAAAAElFTkSuQmCC">
+    <style>
+        /* Add your CSS styles here */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        h2 {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 20px;
+
+        }
+
+        h3 {
+            font-family: Arial;
+            font-weight: bold;
+            font-style: normal;
+            text-align: center;
+            margin-top: 8px;
+            font-size: 18px
+        }
+
+        img {
+            max-width: 80%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+            /* Add margin below the logo */
+            transform: translateX(6%);
+        }
+
+        .logo-container {
+            width: 80%;
+            margin: 50px auto;
+            overflow: hidden;
+            position: relative;
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+
+        .slider-container {
+            width: 80%;
+            margin: 50px auto;
+            background-color: white;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 10px;
+            border-radius: 5px;
+            background: #d3d3d3;
+            outline: none;
+            opacity: 0.7;
+            -webkit-transition: .2s;
+            transition: opacity .2s;
+        }
+
+        .slider:hover {
+            opacity: 1;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background: #507AC4;
+            cursor: pointer;
+        }
+
+        .slider::-moz-range-thumb {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background: #507AC4;
+            cursor: pointer;
+        }
+
+        .slider-value {
+            margin-top: 10px;
+            text-align: center;
+            font-size: 16px;
+
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 35px;
+        }
+
+        .btn-container button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #507AC4;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            align: center;
+            margin: 5px;
+        }
+
+        .btn-container button:hover {
+            background-color: #405C8F;
+        }
+
+        .input-container {
+            margin-top: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .input-container label {
+            margin: 5px;
+            font-family: Arial, sans-serif;
+            font-size: 17px
+        }
+
+        /* Style for number input */
+        .input-container input[type="number"] {
+            width: 50px;
+            /* Adjust input width */
+            padding: 8px;
+            /* Padding for input */
+            font-size: 16px;
+            /* Adjust input font size */
+            border-radius: 5px;
+            /* Rounded corners for input */
+            border: 1px solid #ccc;
+            /* Border color */
+        }
+
+        .message-container {
+            display: none;
+            text-align: center;
+            color: red;
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            /* Make sure it's above other content */
+            width: 80%;
+            /* Set width to 0% */
+        }
+
+
+        .supercontainer {
+            max-width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 40px;
+            margin-bottom: 40px;
+            padding-bottom: 40px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="supercontainer">
+        <div class="logo-container"><img
+                src="data:image/png;base64,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">
+            <br>
+            <h2>Demo regolazione placca</h2>
+        </div>
+        <!-- Live mesure -->
+        <div class="live-measurement-container">
+            <h3>Misurazione Live</h3>
+            <p id="liveMeasurement">N/A</p>
+        </div>
+        <!-- Slider distanza -->
+        <div class="slider-container">
+            <h3>Regolazione distanza</h3>
+            <input type="range" min="5" max="200" value="5" class="slider" id="mySliderDistanza">
+            <div class="input-container">
+                <label for="sliderValueDistanza">Imposta valore:</label>
+                <input number="input_distanza" type="number" id="sliderValueDistanza" min="5" max="200" value="1">
+                <label for="sliderValueSecondi">cm</label>
+            </div>
+        </div>
+
+        <!-- Slider secondi -->
+        <div class="slider-container">
+            <h3>Regolazione tempo per azionamento</h3>
+            <input type="range" min="5" max="200" value="5" class="slider" id="mySliderSecondi">
+            <div class="input-container">
+                <label for="sliderValueSecondi">Imposta valore:</label>
+                <input number="input_secondi" type="number" id="sliderValueSecondi" min="5" max="200" value="1">
+                <label for="sliderValueSecondi">s</label>
+            </div>
+        </div>
+
+        <!-- Button container -->
+        <div class="btn-container">
+            <button id="submitButton">Invia Configurazione</button>
+            <button id="resetButton">Reset Impostazioni</button>
+        </div>
+        <!-- Message container -->
+        <div class="message-container" id="messageContainer">
+            <p id="messageLabel">✔ Configurazione Inviata!</p>
+        </div>
+        <div class="message-container" id="resetContainer">
+            <p id="messageLabel">✔ Resettato Correttamente!</p>
+        </div>
+    </div>
+    <script>
+        var distanza = { slider: document.getElementById("mySliderDistanza"), output: document.getElementById("sliderValueDistanza") };
+        var secondi = { slider: document.getElementById("mySliderSecondi"), output: document.getElementById("sliderValueSecondi") };
+
+        function updateSliderValue(item) { item.output.value = item.slider.value; }
+
+        updateSliderValue(distanza);
+        updateSliderValue(secondi);
+
+        distanza.slider.addEventListener("input", () => { updateSliderValue(distanza); });
+        secondi.slider.addEventListener("input", () => { updateSliderValue(secondi); });
+
+        var inputTimeoutDistanza;
+        var inputTimeoutSecondi;
+
+        function isValidInput(value, min, max) { var numValue = parseInt(value); return !isNaN(numValue) && numValue >= min && numValue <= max; }
+
+        distanza.output.addEventListener("input", function () {
+            clearTimeout(inputTimeoutDistanza);
+            inputTimeoutDistanza = setTimeout(() => {
+                var inputValue = this.value;
+                var min = parseInt(this.min);
+                var max = parseInt(this.max);
+                if (isValidInput(inputValue, min, max)) {
+                    distanza.slider.value = inputValue;
+                } else {
+                    this.value = Math.max(min, Math.min(parseInt(inputValue), max));
+                    distanza.slider.value = this.value;
+                }
+            }, 1000);
+        });
+
+        secondi.output.addEventListener("input", function () {
+            clearTimeout(inputTimeoutSecondi);
+            inputTimeoutSecondi = setTimeout(() => {
+                var inputValue = this.value;
+                var min = parseInt(this.min);
+                var max = parseInt(this.max);
+                if (isValidInput(inputValue, min, max)) {
+                    secondi.slider.value = inputValue;
+                } else {
+                    this.value = Math.max(min, Math.min(parseInt(inputValue), max));
+                    secondi.slider.value = this.value;
+                }
+            }, 1000);
+        });
+
+        var gateway = `ws://${window.location.hostname}/ws`;
+        var websocket;
+
+        window.addEventListener('load', onLoad);
+
+        function initWebSocket() {
+            console.log('Trying to open a WebSocket connection...');
+            websocket = new WebSocket(gateway);
+            websocket.onopen = onOpen;
+            websocket.onclose = onClose;
+            websocket.onmessage = onMessage;
+        }
+
+        function onOpen(event) { console.log('Connection opened'); }
+        function onClose(event) { console.log('Connection closed'); setTimeout(initWebSocket, 2000); }
+
+        function onMessage(event) {
+            console.log('Message received:', event.data);
+            var data = JSON.parse(event.data);
+            distanza.slider.value = data.distanza;
+            distanza.output.value = data.distanza;
+            secondi.slider.value = data.secondi;
+            secondi.output.value = data.secondi;
+        }
+
+        function onLoad(event) {
+            initWebSocket();
+            initButton();
+        }
+
+        function initButton() {
+            document.getElementById('submitButton').addEventListener('click', () => {
+                var json = JSON.stringify({ distanza: distanza.slider.value, secondi: secondi.slider.value });
+                var messageContainer = document.getElementById('messageContainer');
+                var resetContainer = document.getElementById('resetContainer');
+                clearTimeout(messageContainer.timeout); // Clear existing timeout
+                resetContainer.style.display = 'none';
+                messageContainer.style.display = 'block';
+                console.log(json);
+                websocket.send(json);
+                messageContainer.timeout = setTimeout(() => { messageContainer.style.display = 'none'; }, 5000);
+            });
+
+            document.getElementById('resetButton').addEventListener('click', () => {
+                var json = JSON.stringify({ distanza: 75, secondi: 5 });
+                var messageContainer = document.getElementById('messageContainer');
+                var resetContainer = document.getElementById('resetContainer');
+                clearTimeout(resetContainer.timeout); // Clear existing timeout
+                messageContainer.style.display = 'none';
+                resetContainer.style.display = 'block';
+                distanza.slider.value = 75; // Update distanza slider value
+                distanza.output.value = 75; // Update distanza output value
+                secondi.slider.value = 5; // Update secondi slider value
+                secondi.output.value = 5; // Update secondi output value
+                console.log(json);
+                websocket.send(json);
+                resetContainer.timeout = setTimeout(() => { resetContainer.style.display = 'none'; }, 5000);
+            });
+        }
+        var arrivato = false;
+        function onMessage(event) {
+            console.log('Message received:', event.data);
+            var data = JSON.parse(event.data);
+            if (!arrivato) {
+                arrivato = true;
+                distanza.slider.value = data.distanza;
+                distanza.output.value = data.distanza;
+                secondi.slider.value = data.secondi;
+                secondi.output.value = data.secondi;
+            }
+
+            // Assuming your ESP32 sends live measurement data with the key 'liveMeasurement'
+            if (data.liveMeasurement !== undefined) {
+                document.getElementById('liveMeasurement').innerText = data.liveMeasurement + " cm";
+            }
+        }
+
+    </script>
+</body>
+
+</html>
