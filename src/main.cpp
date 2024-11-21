@@ -1,9 +1,49 @@
 /*
-    Main Program
+  Main Program
 
-    Dylan Zanaglio
-    Valsir development
+  Dylan Zanaglio
+  Valsir development
+
+  This program initializes and runs a web server on an Arduino-based platform.
+  It sets up various components including WiFi, WebSocket, routes, and a captive portal.
+  It also initializes a sensor and a stepper motor, and handles sensor readings and motor actuation in the main loop.
+
+  Libraries:
+  - config.h: Configuration settings
+  - web_server.h: Web server functionalities
+  - functions.h: Additional functions
+  - Arduino.h: Core Arduino functions
+
+  Setup Function:
+  - Serial.begin(115200): Initializes serial communication at 115200 baud rate.
+  - SPIFFS.begin(true): Initializes the SPIFFS file system.
+  - preferences.begin("my-app", false): Initializes preferences for saving data.
+  - Wire.begin(): Initializes I2C communication.
+  - avgMesure.begin(): Initializes the averaging measurement.
+  - initWifi(): Initializes WiFi.
+  - initWebSocket(): Initializes WebSocket.
+  - initRoutes(): Initializes web server routes.
+  - initCaptivePortal(): Initializes the captive portal.
+  - sensor.init(): Initializes the sensor.
+  - server.begin(): Starts the web server.
+  - myStepper.setSpeed(45): Sets the speed of the stepper motor.
+  - sensor.setTimeout(500): Sets the timeout for the laser sensor.
+  - pinMode(LED_PIN, OUTPUT): Sets the LED pin as output.
+  - pinMode(MOTOR_PIN, OUTPUT): Sets the motor pin as output.
+  - sensor.startContinuous(): Starts continuous sensor readings.
+  - blinkFive(): Blinks the LED five times.
+  - distanza = preferences.getUInt("distanza", 5): Retrieves the previous distance value.
+  - secondi = preferences.getUInt("secondi", 5): Retrieves the previous seconds value.
+
+  Loop Function:
+  - doMeasure(): Reads and averages the sensor data.
+  - notifyClients(): Sends data to web clients every 500 milliseconds.
+  - actuate_motor(avg): Actuates the motor based on the averaged sensor data.
+  - checkAP(): Disables the access point after a certain time.
+  - dnsHandle(): Handles DNS requests.
+  - ws.cleanupClients(): Cleans up WebSocket clients.
 */
+
 #include <config.h>
 #include <web_server.h>
 #include <functions.h>

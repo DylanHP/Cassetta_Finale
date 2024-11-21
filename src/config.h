@@ -1,8 +1,65 @@
 /*
     Config Library
 
-    Dylan Zanaglio
-    Valsir development
+    This header file contains configuration settings and declarations for the project.
+
+    Author: Dylan Zanaglio
+    Organization: Valsir development
+
+    Libraries Included:
+    - WiFi.h: For WiFi connectivity.
+    - movingAvg.h: For calculating moving averages.
+    - Wire.h: For I2C communication.
+    - VL53L0X.h: For interfacing with the VL53L0X sensor.
+    - AsyncTCP.h: For asynchronous TCP communication.
+    - Stepper.h: For controlling stepper motors.
+    - Arduino.h: Core Arduino library.
+    - ArduinoJson.h: For JSON parsing and serialization.
+    - DNSServer.h: For DNS server functionality.
+    - ESPAsyncWebServer.h: For asynchronous web server functionality.
+    - Preferences.h: For storing preferences in non-volatile storage.
+    - FS.h: For file system operations.
+    - SPIFFS.h: For SPI Flash File System operations.
+
+    Constants:
+    - LED_PIN: GPIO pin for the LED.
+    - AP_TIME: Access point time in minutes.
+    - STEPS_PER_REVOLUTION: Number of steps per revolution for the stepper motor.
+    - MOTOR_PIN: GPIO pin for the motor.
+    - DISTANZA_MINIMA: Minimum distance threshold.
+    - SECONDI_ATTIVAZIONE_AP: Activation time for access point in seconds.
+    - SECONDI_ATTIVAZIONE_MOTOR: Activation time for motor in seconds.
+
+    Variables:
+    - distanza: Distance measurement.
+    - secondi: Time in seconds.
+    - stableTimeMotor: Stable time for motor operation.
+    - stableTimeAP: Stable time for access point operation.
+    - avg: Average value.
+
+    Timers:
+    - startTime: Start time for access point timer.
+    - lastSentTime: Last sent time for data transmission.
+    - previousMillis: Previous milliseconds for LED blink without delay.
+
+    Stepper Motor:
+    - active: Boolean flag indicating if the motor is active.
+    - myStepper: Stepper motor instance for the WROOM board.
+
+    Access Point:
+    - apOn: Boolean flag indicating if the access point is on.
+
+    Motor Driver:
+    - MotorState: Enumeration for motor states (FORWARD, WAIT, BACKWARD).
+    - motorState: Current state of the motor.
+    - motorTimer: Timer for motor operation.
+
+    Sensor:
+    - sensor: Instance of the VL53L0X sensor.
+
+    Moving Average:
+    - avgMesure: Instance of the moving average class with a window size of 10.
+
 */
 
 #ifndef CONFIG_H

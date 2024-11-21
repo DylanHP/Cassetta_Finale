@@ -1,8 +1,32 @@
 /*
-    Functions library
+  Functions library
 
-    Dylan Zanaglio
-    Valsir development
+  Dylan Zanaglio
+  Valsir development
+
+  This header file contains various utility functions for WiFi initialization,
+  sensor measurement, access point management, LED blinking, and motor actuation.
+
+  Functions:
+  - void initWifi():
+    Initializes the WiFi in Access Point mode and prints the AP IP address.
+
+  - void doMeasure():
+    Reads the sensor measurement and updates the average measurement.
+
+  - void checkAP():
+    Checks if the access point should be disabled based on the elapsed time.
+
+  - void blinkWithoutDelay(int pin, int interval):
+    Blinks an LED without using delay, allowing other code to run simultaneously.
+
+  - void blinkFive():
+    Blinks an LED five times with a 250ms interval.
+
+  - void actuate_motor(int avg):
+    Actuates a motor based on the average sensor measurement. It controls the motor
+    state (FORWARD, WAIT, BACKWARD) and handles LED blinking and system restart
+    based on certain conditions.
 */
 
 #ifndef FUNCTIONS

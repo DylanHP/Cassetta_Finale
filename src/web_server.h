@@ -1,8 +1,34 @@
 /*
-    Web Server Library
+  Web Server Library
 
-    Dylan Zanaglio
-    Valsir development
+  This library sets up a web server using the ESPAsyncWebServer and DNSServer
+  libraries. It includes functionality for handling WebSocket connections,
+  serving web pages, and managing a captive portal for user connections.
+
+  Author: Dylan Zanaglio
+  Company: Valsir development
+
+  Components:
+  - DNSServer dnsServer: DNS server for captive portal.
+  - AsyncWebServer server: Web server running on port 80.
+  - AsyncWebSocket ws: WebSocket server at endpoint "/ws".
+  - Preferences preferences: Preferences object for storing persistent data.
+  - String user_name: Stores the user's name.
+  - String proficiency: Stores the user's proficiency level.
+  - bool name_received: Flag indicating if the user's name has been received.
+  - bool proficiency_received: Flag indicating if the user's proficiency has been received.
+
+  Functions:
+  - void initWebSocket(): Initializes the WebSocket server and sets up event handlers.
+  - void initRoutes(): Sets up the routes for the web server.
+  - void initCaptivePortal(): Initializes the captive portal for user connections.
+  - void notifyClients(): Sends updated data to all connected WebSocket clients.
+  - void handleWebSocketMessage(void *arg, uint8_t *data, size_t len): Handles incoming WebSocket messages.
+  - void onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType type, void *arg, uint8_t *data, size_t len): Handles WebSocket events.
+  - void dnsHandle(): Processes DNS requests and handles user connection information.
+
+  Classes:
+  - CaptiveRequestHandler: Custom request handler for the captive portal.
 */
 
 #ifndef WEB_SERVER_H
