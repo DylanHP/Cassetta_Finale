@@ -1,32 +1,32 @@
 /*
-  Functions library
+  Libreria di funzioni
 
-  Dylan Zanaglio
-  Valsir development
+  Author: Dylan Zanaglio
+  Organization: Valsir development
 
-  This header file contains various utility functions for WiFi initialization,
-  sensor measurement, access point management, LED blinking, and motor actuation.
+  Questo file header contiene varie funzioni di utilità per l'inizializzazione del WiFi,
+  la misurazione dei sensori, la gestione dell'access point, il lampeggio dei LED e l'azionamento del motore.
 
-  Functions:
+  Funzioni:
   - void initWifi():
-    Initializes the WiFi in Access Point mode and prints the AP IP address.
+    Inizializza il WiFi in modalità Access Point e stampa l'indirizzo IP dell'AP.
 
   - void doMeasure():
-    Reads the sensor measurement and updates the average measurement.
+    Legge la misurazione del sensore e aggiorna la misurazione media.
 
   - void checkAP():
-    Checks if the access point should be disabled based on the elapsed time.
+    Controlla se l'access point deve essere disabilitato in base al tempo trascorso.
 
   - void blinkWithoutDelay(int pin, int interval):
-    Blinks an LED without using delay, allowing other code to run simultaneously.
+    Lampeggia un LED senza usare delay, permettendo l'esecuzione simultanea di altro codice.
 
   - void blinkFive():
-    Blinks an LED five times with a 250ms interval.
+    Lampeggia un LED cinque volte con un intervallo di 250ms.
 
   - void actuate_motor(int avg):
-    Actuates a motor based on the average sensor measurement. It controls the motor
-    state (FORWARD, WAIT, BACKWARD) and handles LED blinking and system restart
-    based on certain conditions.
+    Attiva un motore in base alla misurazione media del sensore. Controlla lo stato del motore
+    (AVANTI, ATTESA, INDIETRO) e gestisce il lampeggio dei LED e il riavvio del sistema
+    in base a determinate condizioni.
 */
 
 #ifndef FUNCTIONS
@@ -34,6 +34,7 @@
 
 #include <config.h>
 
+// Iniziallizazione del WiFi
 void initWifi() {
   WiFi.softAP(ssid, password);
   WiFi.mode(WIFI_AP);
@@ -42,11 +43,13 @@ void initWifi() {
   Serial.println(WiFi.softAPIP());
 }
 
+// Esegue la misurazione del sensore
 void doMeasure() {
   int measure = sensor.readRangeContinuousMillimeters();
   avg = avgMesure.reading(measure);
 }
 
+// Controlla se l'access point deve essere disabilitato
 void checkAP() {
   if (apOn && millis() - startTime >= AP_TIME * 60 * 1000) {
     WiFi.softAPdisconnect(true);
@@ -55,6 +58,7 @@ void checkAP() {
   }
 }
 
+// Lampeggia un LED senza usare delay
 void blinkWithoutDelay(int pin, int interval) {
   unsigned long currentMillis = millis();
 
@@ -68,6 +72,7 @@ void blinkWithoutDelay(int pin, int interval) {
   }
 }
 
+// Lampeggia un LED cinque volte
 void blinkFive() {
   for (int i = 0; i < 5; i++) {
     digitalWrite(LED_PIN, HIGH);
@@ -77,6 +82,7 @@ void blinkFive() {
   }
 }
 
+// Attiva il motore in base alla misura del sensore
 void actuate_motor(int avg) {
   unsigned long currentMillis = millis();
 
@@ -87,11 +93,9 @@ void actuate_motor(int avg) {
       Serial.print(secondi);
       Serial.print(" sec\n");
       active = true;
-      stableTimeMotor = currentMillis;  // Update the stable time after the
-                                        // action has been performed
+      stableTimeMotor = currentMillis;
     }
   } else if (avg > distanza && active) {
-    // activate motor
     digitalWrite(LED_PIN, LOW);
     digitalWrite(MOTOR_PIN, HIGH);
 
@@ -122,7 +126,6 @@ void actuate_motor(int avg) {
       Serial.print(secondi);
       Serial.print(" sec\n");
       digitalWrite(LED_PIN, LOW);
-      // when is enabled
       stableTimeAP = currentMillis;
       ESP.restart();
     }

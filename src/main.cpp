@@ -1,47 +1,47 @@
 /*
-  Main Program
+  Programma principale
 
-  Dylan Zanaglio
-  Valsir development
+  Author: Dylan Zanaglio
+  Organization: Valsir development
 
-  This program initializes and runs a web server on an Arduino-based platform.
-  It sets up various components including WiFi, WebSocket, routes, and a captive portal.
-  It also initializes a sensor and a stepper motor, and handles sensor readings and motor actuation in the main loop.
+  Questo programma inizializza ed esegue un server web su una piattaforma basata su Arduino.
+  Configura vari componenti tra cui WiFi, WebSocket, rotte e un captive portal.
+  Inizializza anche un sensore e un motore passo-passo, e gestisce le letture del sensore e l'attuazione del motore nel loop principale.
 
-  Libraries:
-  - config.h: Configuration settings
-  - web_server.h: Web server functionalities
-  - functions.h: Additional functions
-  - Arduino.h: Core Arduino functions
+  Librerie:
+  - config.h: Impostazioni di configurazione
+  - web_server.h: Funzionalità del server web
+  - functions.h: Funzioni aggiuntive
+  - Arduino.h: Funzioni core di Arduino
 
-  Setup Function:
-  - Serial.begin(115200): Initializes serial communication at 115200 baud rate.
-  - SPIFFS.begin(true): Initializes the SPIFFS file system.
-  - preferences.begin("my-app", false): Initializes preferences for saving data.
-  - Wire.begin(): Initializes I2C communication.
-  - avgMesure.begin(): Initializes the averaging measurement.
-  - initWifi(): Initializes WiFi.
-  - initWebSocket(): Initializes WebSocket.
-  - initRoutes(): Initializes web server routes.
-  - initCaptivePortal(): Initializes the captive portal.
-  - sensor.init(): Initializes the sensor.
-  - server.begin(): Starts the web server.
-  - myStepper.setSpeed(45): Sets the speed of the stepper motor.
-  - sensor.setTimeout(500): Sets the timeout for the laser sensor.
-  - pinMode(LED_PIN, OUTPUT): Sets the LED pin as output.
-  - pinMode(MOTOR_PIN, OUTPUT): Sets the motor pin as output.
-  - sensor.startContinuous(): Starts continuous sensor readings.
-  - blinkFive(): Blinks the LED five times.
-  - distanza = preferences.getUInt("distanza", 5): Retrieves the previous distance value.
-  - secondi = preferences.getUInt("secondi", 5): Retrieves the previous seconds value.
+  Funzione Setup:
+  - Serial.begin(115200): Inizializza la comunicazione seriale a 115200 baud.
+  - SPIFFS.begin(true): Inizializza il file system SPIFFS.
+  - preferences.begin("my-app", false): Inizializza le preferenze per salvare i dati.
+  - Wire.begin(): Inizializza la comunicazione I2C.
+  - avgMesure.begin(): Inizializza la misurazione media.
+  - initWifi(): Inizializza il WiFi.
+  - initWebSocket(): Inizializza il WebSocket.
+  - initRoutes(): Inizializza le rotte del server web.
+  - initCaptivePortal(): Inizializza il captive portal.
+  - sensor.init(): Inizializza il sensore.
+  - server.begin(): Avvia il server web.
+  - myStepper.setSpeed(45): Imposta la velocità del motore passo-passo.
+  - sensor.setTimeout(500): Imposta il timeout per il sensore laser.
+  - pinMode(LED_PIN, OUTPUT): Imposta il pin del LED come uscita.
+  - pinMode(MOTOR_PIN, OUTPUT): Imposta il pin del motore come uscita.
+  - sensor.startContinuous(): Avvia le letture continue del sensore.
+  - blinkFive(): Lampeggia il LED cinque volte.
+  - distanza = preferences.getUInt("distanza", 5): Recupera il valore precedente della distanza.
+  - secondi = preferences.getUInt("secondi", 5): Recupera il valore precedente dei secondi.
 
-  Loop Function:
-  - doMeasure(): Reads and averages the sensor data.
-  - notifyClients(): Sends data to web clients every 500 milliseconds.
-  - actuate_motor(avg): Actuates the motor based on the averaged sensor data.
-  - checkAP(): Disables the access point after a certain time.
-  - dnsHandle(): Handles DNS requests.
-  - ws.cleanupClients(): Cleans up WebSocket clients.
+  Funzione Loop:
+  - doMeasure(): Legge e media i dati del sensore.
+  - notifyClients(): Invia dati ai client web ogni 500 millisecondi.
+  - actuate_motor(avg): Attiva il motore in base ai dati mediati del sensore.
+  - checkAP(): Disabilita l'access point dopo un certo tempo.
+  - dnsHandle(): Gestisce le richieste DNS.
+  - ws.cleanupClients(): Pulisce i client WebSocket.
 */
 
 #include <config.h>
@@ -51,38 +51,31 @@
 
 /****************************Setup********************************/
 void setup() {
-  // begins
   Serial.begin(115200);
   if (!SPIFFS.begin(true)) return;
-  preferences.begin("my-app",
-                    false);  // saving data from web
-
-  // scheda wroom
+  preferences.begin("my-app", false);  // Salvo i dati delle preferenze
   Wire.begin();
   // pinMode(SDA_PIN, INPUT_PULLUP);
   // pinMode(SCL_PIN, INPUT_PULLUP);
   // Wire.begin(SDA_PIN, SCL_PIN);
   avgMesure.begin();
 
-  // inits
-  initWifi();
-  initWebSocket();
-  initRoutes();
-  initCaptivePortal();
-  if (!sensor.init()) return;
+  // iniziallizzazioni
+  initWifi();                  // inizializzo il wifi
+  initWebSocket();             // inizializzo il websocket
+  initRoutes();                // inizializzo le rotte
+  initCaptivePortal();         // inizializzo il captive portal
+  if (!sensor.init()) return;  // inizializzo il laser
+  server.begin();              // inizializzo il server
 
-  // inizializzo prima tutto e poi avvio
-  server.begin();
+  // impostazioni del motore
+  myStepper.setSpeed(45);      // velocità del motore
+  sensor.setTimeout(500);      // timeout del laser
+  pinMode(LED_PIN, OUTPUT);    // ledPin come output
+  pinMode(MOTOR_PIN, OUTPUT);  // MotorPin come output
 
-  // settings
-  myStepper.setSpeed(45);      // setting the speed of the stepper
-  sensor.setTimeout(500);      // Timeout setup for laser
-  pinMode(LED_PIN, OUTPUT);    // LED as output
-  pinMode(MOTOR_PIN, OUTPUT);  // MotorPin as output
-
-  // Startup of sensor readings
-  sensor.startContinuous();
-  blinkFive();
+  sensor.startContinuous();  // setto le letture del laser come continue
+  blinkFive();               // lampeggio del led
 
   // Recupera i vecchi valori prima del reset
   distanza = preferences.getUInt("distanza", 5);
@@ -91,18 +84,16 @@ void setup() {
 
 /****************************Loop********************************/
 void loop() {
-  doMeasure();  // reading and averaging the sensor
+  doMeasure();  // misura e media i dati letti dal laser
 
+  // invia i dati ai client ogni 500 millisecondi
   unsigned long currentTime = millis();
   if (currentTime - lastSentTime >= 500) {
-    notifyClients();  // sending data to web
+    notifyClients();
   }
 
-  actuate_motor(avg);  // actuate the motor
-
-  checkAP();  // disable ap after AP_TIME
-
-  dnsHandle();  // DNS handle
-
-  ws.cleanupClients();  // cleanups
+  actuate_motor(avg);   // attiva il motore in base alla distanza letta
+  checkAP();            // disabilita l'access point dopo un certo tempo
+  dnsHandle();          // gestisce le richieste DNS
+  ws.cleanupClients();  // pulisce i client WebSocket
 }

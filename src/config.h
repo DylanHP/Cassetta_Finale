@@ -1,65 +1,43 @@
 /*
-    Config Library
+  Libreria di Configurazione
 
-    This header file contains configuration settings and declarations for the project.
+  Questo file header contiene le impostazioni di configurazione e le dichiarazioni per il progetto.
 
-    Author: Dylan Zanaglio
-    Organization: Valsir development
+  Author: Dylan Zanaglio
+  Organization: Valsir development
 
-    Libraries Included:
-    - WiFi.h: For WiFi connectivity.
-    - movingAvg.h: For calculating moving averages.
-    - Wire.h: For I2C communication.
-    - VL53L0X.h: For interfacing with the VL53L0X sensor.
-    - AsyncTCP.h: For asynchronous TCP communication.
-    - Stepper.h: For controlling stepper motors.
-    - Arduino.h: Core Arduino library.
-    - ArduinoJson.h: For JSON parsing and serialization.
-    - DNSServer.h: For DNS server functionality.
-    - ESPAsyncWebServer.h: For asynchronous web server functionality.
-    - Preferences.h: For storing preferences in non-volatile storage.
-    - FS.h: For file system operations.
-    - SPIFFS.h: For SPI Flash File System operations.
+  Costanti:
+  - LED_PIN: Pin del LED.
+  - AP_TIME: Tempo di attivazione dell'Access Point (in minuti).
+  - STEPS_PER_REVOLUTION: Numero di passi per rivoluzione del motore stepper.
+  - MOTOR_PIN: Pin del motore.
+  - DISTANZA_MINIMA: Distanza minima per l'attivazione.
+  - SECONDI_ATTIVAZIONE_AP: Secondi di attivazione dell'Access Point.
+  - SECONDI_ATTIVAZIONE_MOTOR: Secondi di attivazione del motore.
 
-    Constants:
-    - LED_PIN: GPIO pin for the LED.
-    - AP_TIME: Access point time in minutes.
-    - STEPS_PER_REVOLUTION: Number of steps per revolution for the stepper motor.
-    - MOTOR_PIN: GPIO pin for the motor.
-    - DISTANZA_MINIMA: Minimum distance threshold.
-    - SECONDI_ATTIVAZIONE_AP: Activation time for access point in seconds.
-    - SECONDI_ATTIVAZIONE_MOTOR: Activation time for motor in seconds.
+  Variabili:
+  - distanza: Distanza misurata.
+  - secondi: Secondi trascorsi.
+  - stableTimeMotor: Tempo stabile per il motore.
+  - stableTimeAP: Tempo stabile per l'Access Point.
+  - avg: Media delle misurazioni.
 
-    Variables:
-    - distanza: Distance measurement.
-    - secondi: Time in seconds.
-    - stableTimeMotor: Stable time for motor operation.
-    - stableTimeAP: Stable time for access point operation.
-    - avg: Average value.
+  Timer:
+  - startTime: Tempo di inizio per il timer dell'Access Point.
+  - lastSentTime: Ultimo tempo di invio.
+  - previousMillis: Tempo precedente per il lampeggio del LED senza delay.
 
-    Timers:
-    - startTime: Start time for access point timer.
-    - lastSentTime: Last sent time for data transmission.
-    - previousMillis: Previous milliseconds for LED blink without delay.
+  Motore stepper:
+  - active: Stato di attivazione del motore.
+  - myStepper: Istanza del motore stepper.
+  - MotorState: Stati possibili del motore (FORWARD, WAIT, BACKWARD).
+  - motorState: Stato iniziale del motore (BACKWARD).
+  - motorTimer: Timer di azionamento del motore.
 
-    Stepper Motor:
-    - active: Boolean flag indicating if the motor is active.
-    - myStepper: Stepper motor instance for the WROOM board.
-
-    Access Point:
-    - apOn: Boolean flag indicating if the access point is on.
-
-    Motor Driver:
-    - MotorState: Enumeration for motor states (FORWARD, WAIT, BACKWARD).
-    - motorState: Current state of the motor.
-    - motorTimer: Timer for motor operation.
-
-    Sensor:
-    - sensor: Instance of the VL53L0X sensor.
-
-    Moving Average:
-    - avgMesure: Instance of the moving average class with a window size of 10.
-
+  Altre variabili:
+  - apOn: Stato di attivazione dell'Access Point.
+  - sensor: Istanza del sensore VL53L0X.
+  - avgMesure: Istanza della media mobile per le misurazioni.
 */
 
 #ifndef CONFIG_H
@@ -79,8 +57,7 @@
 #include <FS.h>
 #include <SPIFFS.h>
 
-// costants
-// scheda wroom
+// Costanti
 const int LED_PIN = 18;
 // const int LED_PIN = 12;
 // const int SDA_PIN = 14;
@@ -93,38 +70,32 @@ unsigned int DISTANZA_MINIMA = 60;
 unsigned int SECONDI_ATTIVAZIONE_AP = 15;
 unsigned int SECONDI_ATTIVAZIONE_MOTOR = 10;
 
-// values for program
+// Variabili
 unsigned int distanza;
 unsigned int secondi;
 unsigned long stableTimeMotor = 0;
 unsigned long stableTimeAP = 0;
 unsigned int avg;
 
-// timers
-unsigned long startTime;  // for ap timer
+// Timers
+unsigned long startTime;  // per timer ap
 unsigned long lastSentTime = 0;
-unsigned long previousMillis = 0;  // LED blink without delay
+unsigned long previousMillis = 0;  // Lampeggio led senza delay
 
-// steps for each revolution of drain
-boolean active = false;
-// per board wroom
-Stepper myStepper(STEPS_PER_REVOLUTION, 25, 26, 32, 33);
+// Motore stepper
+boolean active = false;                                   // per gli step del motore
+Stepper myStepper(STEPS_PER_REVOLUTION, 25, 26, 32, 33);  // iniziallizzazione del motore
 // Stepper myStepper(STEPS_PER_REVOLUTION, 31, 28, 30, 33);
-
-// for Ap timer
-boolean apOn = true;
-
-// motor driver
 enum MotorState { FORWARD,
                   WAIT,
-                  BACKWARD };
-MotorState motorState = BACKWARD;
-unsigned long motorTimer = 0;
+                  BACKWARD };      // stati possibili
+MotorState motorState = BACKWARD;  // stato iniziale
+unsigned long motorTimer = 0;      // timer di azionamento del motore
 
-// Istance of the sensor
-VL53L0X sensor;
+boolean apOn = true;  // for Ap timer
 
-// Istance of moving average
-movingAvg avgMesure(10);
+VL53L0X sensor;  // Istance of the sensor
+
+movingAvg avgMesure(10);  // Istanza della media mobile
 
 #endif  // CONFIG_H
