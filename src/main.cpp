@@ -49,6 +49,9 @@
 #include <functions.h>
 #include "Arduino.h"
 
+unsigned long previusTime = 0;
+unsigned long interval = 500;
+
 /****************************Setup********************************/
 void setup() {
   Serial.begin(115200);
@@ -84,6 +87,7 @@ void setup() {
 
 /****************************Loop********************************/
 void loop() {
+  unsigned long currentMills = millis();
   doMeasure();  // misura e media i dati letti dal laser
 
   // invia i dati ai client ogni 500 millisecondi
@@ -92,8 +96,11 @@ void loop() {
     notifyClients();
   }
 
-  actuate_motor(avg);   // attiva il motore in base alla distanza letta
-  checkAP();            // disabilita l'access point dopo un certo tempo
-  dnsHandle();          // gestisce le richieste DNS
+  actuate_motor(avg);  // attiva il motore in base alla distanza letta
+  checkAP();           // disabilita l'access point dopo un certo tempo
+  if (currentMills - previusTime >= interval) {
+    previousMillis = currentMills;
+    dnsHandle();  // gestisce le richieste DNS
+  }
   ws.cleanupClients();  // pulisce i client WebSocket
 }
